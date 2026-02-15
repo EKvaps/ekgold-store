@@ -90,6 +90,12 @@ header h1 {
     margin-bottom: 8px;
 }
 
+.puffs {
+    color: #bbb;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
 .precio {
     color: #C6A75E;
     font-size: 20px;
@@ -190,10 +196,10 @@ productos.forEach((producto, index) => {
     contenedor.innerHTML += `
         <div class="card" style="animation-delay:${index * 0.1}s">
             <img src="${producto.imagen}" alt="${producto.nombre}">
-           <h3>${producto.nombre}</h3>
+            <h3>${producto.nombre}</h3>
             <p class="puffs">${producto.puffs}</p>
             <p class="precio">$${producto.precio}</p>
-           </div>
+        </div>
     `;
 });
 </script>
