@@ -1,109 +1,202 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>EKVAPS Store</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EKvaps</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0f0f0f;
-            color: white;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
 
-        header {
-            background: black;
-            padding: 20px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            border-bottom: 1px solid #222;
-        }
+body {
+    background: #0f0f0f;
+    color: white;
+}
 
-        .productos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 30px;
-        }
+/* HEADER */
+header {
+    background: black;
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 2px solid #C6A75E;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 
-        .card {
-            background: #1a1a1a;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-            transition: 0.3s;
-            border: 1px solid #2a2a2a;
-        }
+header h1 {
+    color: #C6A75E;
+    font-size: 36px;
+    letter-spacing: 4px;
+    font-weight: 600;
+}
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: #444;
-        }
+/* SUBTITLE */
+.subtitulo {
+    text-align: center;
+    margin: 50px 20px 10px;
+    font-size: 26px;
+    font-weight: 300;
+    color: #ddd;
+}
 
-        .card img {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
+/* GRID */
+.productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 35px;
+    padding: 40px;
+    max-width: 1300px;
+    margin: auto;
+}
 
-        .nombre {
-            font-size: 18px;
-            font-weight: bold;
-        }
+/* CARD */
+.card {
+    background: #1a1a1a;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    transition: 0.35s;
+    border: 1px solid rgba(198,167,94,0.15);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: aparecer 0.6s forwards;
+}
 
-        .detalle {
-            font-size: 14px;
-            color: #aaa;
-            margin: 5px 0;
-        }
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 35px rgba(0,0,0,0.6);
+    border-color: rgba(198,167,94,0.5);
+}
 
-        .precio {
-            font-size: 20px;
-            margin-top: 10px;
-            color: #00ff88;
-            font-weight: bold;
-        }
+.card img {
+    width: 100%;
+    height: 210px;
+    object-fit: contain;
+    border-radius: 12px;
+    background: #111;
+    margin-bottom: 15px;
+}
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #666;
-            border-top: 1px solid #222;
-        }
-    </style>
+.card h3 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.puffs {
+    color: #bbb;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.precio {
+    color: #C6A75E;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* FOOTER */
+footer {
+    background: black;
+    text-align: center;
+    padding: 20px;
+    margin-top: 60px;
+    border-top: 2px solid #C6A75E;
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* WHATSAPP BUTTON */
+.whatsapp {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #C6A75E;
+    color: black;
+    padding: 14px 18px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    transition: 0.3s;
+}
+
+.whatsapp:hover {
+    transform: scale(1.08);
+}
+
+/* ANIMATION */
+@keyframes aparecer {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
 </head>
+
 <body>
 
-<header>EKVAPS STORE</header>
+<header>
+    <h1>EKvaps</h1>
+</header>
 
-<section class="productos" id="productos"></section>
+<h2 class="subtitulo">Colección Disponible</h2>
 
-<footer>© EKVAPS - Todos los derechos reservados</footer>
+<section class="productos" id="contenedor-productos"></section>
+
+<footer>
+    © 2026 EKvaps — Experiencia Premium
+</footer>
+
+<a class="whatsapp" href="https://wa.me/573224953782" target="_blank">
+    WhatsApp
+</a>
 
 <script>
 const productos = [
     {
+        nombre: "Lost Mary",
+        puffs:  "5.000 puffs",
+        precio: "22.000",
+        imagen: "https://i0.wp.com/gleevape.com/wp-content/uploads/2024/06/Lost-Mary-MO5000-1-2.webp?fit=710%2C635&ssl=1"
+    },
+    {
+        nombre: "Snoopy",
+        puffs:  "7.000 puffs",
+        precio: "27.000",
+        imagen: "http://aleko.com.co/cdn/shop/files/image-Photoroom_be096c57-2d63-4f10-a7f4-c2d113bfc7b4.jpg?v=1735910941"
+    },
+    {
+        nombre: "Priv Bar",
+        puffs:  "15.000 puffs",
+        precio: "35.000",
+        imagen: "https://images.rappi.com/products/1725758231255_1725758229165_1725758228266.jpeg"
+    },
+    {
         nombre: "Proximamente",
         puffs:  "??????",
         precio: "?????",
-        imagen: "https://via.placeholder.com/300x200?text=Proximamente"
+        imagen: "https://via.placeholder.com/300x210?text=Proximamente"
     }
 ];
 
-const contenedor = document.getElementById("productos");
+const contenedor = document.getElementById("contenedor-productos");
 
-productos.forEach(producto => {
+productos.forEach((producto, index) => {
     contenedor.innerHTML += `
-        <div class="card">
+        <div class="card" style="animation-delay:${index * 0.1}s">
             <img src="${producto.imagen}" alt="${producto.nombre}">
-            <div class="nombre">${producto.nombre}</div>
-            <div class="detalle">${producto.puffs}</div>
-            <div class="precio">$${producto.precio}</div>
+            <h3>${producto.nombre}</h3>
+            <p class="puffs">${producto.puffs}</p>
+            <p class="precio">$${producto.precio}</p>
         </div>
     `;
 });
