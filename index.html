@@ -91,9 +91,9 @@ header h1 {
 }
 
 .puffs {
-    color: #bbb;
+    color: #aaa;
     font-size: 14px;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
 }
 
 .precio {
@@ -191,14 +191,18 @@ const productos = [
 const contenedor = document.getElementById("contenedor-productos");
 
 productos.forEach((producto, index) => {
-    contenedor.innerHTML += `
-        <div class="card" style="animation-delay:${index * 0.1}s">
-            <img src="${producto.imagen}" alt="${producto.nombre}">
-            <h3>${producto.nombre}</h3>
-            <p class="puffs">${producto.puffs}</p>
-            <p class="precio">$${producto.precio}</p>
-        </div>
+    const card = document.createElement("div");
+    card.className = "card";
+    card.style.animationDelay = `${index * 0.1}s`;
+
+    card.innerHTML = `
+        <img src="${producto.imagen}" alt="${producto.nombre}">
+        <h3>${producto.nombre}</h3>
+        <p class="puffs">${producto.puffs}</p>
+        <p class="precio">$${producto.precio}</p>
     `;
+
+    contenedor.appendChild(card);
 });
 </script>
 
