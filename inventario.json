@@ -5,7 +5,7 @@ import os
 import subprocess
 
 # ---------------- CONFIG ----------------
-RUTA_REPO = r"C:\Users\allsp\OneDrive\Desktop\ekvaps-store"
+RUTA_REPO = r"https://github.com/EKvaps/ekvaps-store.git"
 ARCHIVO_JSON = os.path.join(RUTA_REPO, "inventario.json")
 
 # ---------------- FUNCIONES JSON ----------------
