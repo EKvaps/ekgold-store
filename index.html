@@ -26,9 +26,6 @@ background:black;
 padding:25px;
 text-align:center;
 border-bottom:2px solid #C6A75E;
-position:sticky;
-top:0;
-z-index:1000;
 }
 
 header h1{
@@ -37,9 +34,9 @@ letter-spacing:4px;
 font-size:32px;
 }
 
-/* CARRITO ICONO */
+/* BOTON CARRITO */
 
-.carrito{
+.carrito-btn{
 position:fixed;
 top:20px;
 right:20px;
@@ -50,14 +47,15 @@ border-radius:30px;
 font-weight:bold;
 cursor:pointer;
 box-shadow:0 10px 25px rgba(0,0,0,.4);
-transition:0.3s;
+transition:.3s;
+z-index:1000;
 }
 
-.carrito.animar{
+.carrito-btn.animar{
 transform:scale(1.25);
 }
 
-/* TITULO */
+/* GRID */
 
 .subtitulo{
 text-align:center;
@@ -65,8 +63,6 @@ margin:40px 10px;
 font-size:26px;
 color:#ddd;
 }
-
-/* GRID PRODUCTOS */
 
 .productos{
 display:grid;
@@ -77,7 +73,7 @@ max-width:1300px;
 margin:auto;
 }
 
-/* TARJETAS */
+/* PRODUCTO */
 
 .card{
 background:#1a1a1a;
@@ -85,7 +81,7 @@ border-radius:16px;
 padding:20px;
 text-align:center;
 border:1px solid rgba(198,167,94,0.2);
-transition:0.3s;
+transition:.3s;
 box-shadow:0 10px 25px rgba(0,0,0,.4);
 }
 
@@ -98,22 +94,16 @@ border-color:#C6A75E;
 width:100%;
 height:200px;
 object-fit:contain;
-margin-bottom:15px;
 background:#111;
 border-radius:10px;
-}
-
-.puffs{
-color:#aaa;
-font-size:14px;
-margin-bottom:8px;
+margin-bottom:15px;
 }
 
 .precio{
 color:#C6A75E;
 font-size:20px;
 font-weight:bold;
-margin-bottom:12px;
+margin:10px 0;
 }
 
 button{
@@ -123,11 +113,6 @@ padding:10px 18px;
 border-radius:8px;
 font-weight:bold;
 cursor:pointer;
-transition:0.2s;
-}
-
-button:hover{
-transform:scale(1.05);
 }
 
 /* MODAL SABORES */
@@ -139,40 +124,28 @@ background:rgba(0,0,0,.85);
 display:none;
 align-items:center;
 justify-content:center;
-z-index:2000;
 }
 
-.modal-contenido{
+.modal-box{
 background:#1a1a1a;
 padding:30px;
 border-radius:14px;
-width:360px;
-max-height:80vh;
-overflow:auto;
+width:350px;
 }
 
 .sabor{
 display:flex;
 justify-content:space-between;
-align-items:center;
-padding:10px 0;
+padding:8px 0;
 border-bottom:1px solid #333;
 }
 
-.estado{
-font-size:13px;
-padding:3px 8px;
-border-radius:20px;
-}
-
 .disponible{
-background:#1e7f46;
-color:#9cffc7;
+color:#63ff9c;
 }
 
 .agotado{
-background:#6b1e1e;
-color:#ff9b9b;
+color:#ff6b6b;
 }
 
 /* PANEL CARRITO */
@@ -185,24 +158,22 @@ width:320px;
 height:100%;
 background:#111;
 padding:25px;
-transition:0.4s;
-z-index:1500;
+transition:.4s;
 }
 
 .panel-carrito.abierto{
 right:0;
 }
 
-.item-carrito{
+.item{
 margin-bottom:10px;
 font-size:14px;
-color:#ddd;
 }
 
 .total{
 margin-top:20px;
-font-weight:bold;
 color:#C6A75E;
+font-weight:bold;
 }
 
 </style>
@@ -214,38 +185,39 @@ color:#C6A75E;
 <h1>EKGOLD</h1>
 </header>
 
-<div class="carrito" id="carritoBtn">
+<div class="carrito-btn" id="carritoBtn">
 🛒 <span id="cantidad">0</span>
 </div>
 
 <h2 class="subtitulo">Vapes Disponibles</h2>
 
-<section class="productos" id="contenedor"></section>
+<section class="productos" id="productos"></section>
 
-<!-- MODAL SABORES -->
+<!-- MODAL -->
 
 <div class="modal" id="modal">
 
-<div class="modal-contenido">
+<div class="modal-box">
 
-<h3 id="tituloProducto"></h3>
+<h3 id="titulo"></h3>
 
-<div id="listaSabores"></div>
+<div id="sabores"></div>
 
 <br>
 
 <button onclick="cerrarModal()">Cerrar</button>
 
 </div>
+
 </div>
 
 <!-- PANEL CARRITO -->
 
-<div class="panel-carrito" id="panelCarrito">
+<div class="panel-carrito" id="panel">
 
 <h2>Tu carrito</h2>
 
-<div id="items">Carrito vacío</div>
+<div id="listaCarrito">Carrito vacío</div>
 
 <div class="total" id="total"></div>
 
@@ -265,44 +237,38 @@ const productos=[
 
 {
 nombre:"Lost Mary",
-puffs:"5000 puffs",
-precio:000,
+precio:15000,
 imagen:"https://i0.wp.com/gleevape.com/wp-content/uploads/2024/06/Lost-Mary-MO5000-1-2.webp?fit=710%2C635&ssl=1",
 sabores:[
 {nombre:"Arándanos Ice",stock:true},
-{nombre:"Mango Melocotón",stock:true},
-{nombre:"Fresa Kiwi",stock:false},
-{nombre:"Sandía",stock:true}
+{nombre:"Mango",stock:true},
+{nombre:"Fresa Kiwi",stock:false}
 ]
 },
 
 {
 nombre:"Snoopy",
-puffs:"7000 puffs",
-precio:000,
+precio:15000,
 imagen:"http://aleko.com.co/cdn/shop/files/image-Photoroom_be096c57-2d63-4f10-a7f4-c2d113bfc7b4.jpg?v=1735910941",
 sabores:[
 {nombre:"Uva Ice",stock:true},
-{nombre:"Melocotón Mango",stock:true},
-{nombre:"Cola",stock:false}
+{nombre:"Melocotón",stock:true}
 ]
 },
 
 {
 nombre:"Priv Bar",
-puffs:"15000 puffs",
-precio:000,
+precio:15000,
 imagen:"https://images.rappi.com/products/1725758231255_1725758229165_1725758228266.jpeg",
 sabores:[
 {nombre:"Blue Razz",stock:true},
-{nombre:"Menta Limón",stock:true},
-{nombre:"Cereza",stock:false}
+{nombre:"Menta Limón",stock:true}
 ]
 }
 
 ]
 
-const contenedor=document.getElementById("contenedor")
+const contenedor=document.getElementById("productos")
 
 productos.forEach((p,i)=>{
 
@@ -311,45 +277,45 @@ const card=document.createElement("div")
 card.className="card"
 
 card.innerHTML=`
+
 <img src="${p.imagen}">
+
 <h3>${p.nombre}</h3>
-<p class="puffs">${p.puffs}</p>
-<p class="precio">$${p.precio}</p>
+
+<div class="precio">$${p.precio}</div>
+
 <button>Comprar</button>
+
 `
 
-card.querySelector("button").addEventListener("click",()=>{
-
-verSabores(i)
-
-})
+card.querySelector("button").onclick=()=>abrirSabores(i)
 
 contenedor.appendChild(card)
 
 })
 
-function verSabores(i){
+function abrirSabores(i){
 
-const producto=productos[i]
+const prod=productos[i]
 
-const lista=document.getElementById("listaSabores")
+document.getElementById("titulo").innerText=prod.nombre
+
+const lista=document.getElementById("sabores")
 
 lista.innerHTML=""
 
-document.getElementById("tituloProducto").innerText=producto.nombre
-
-producto.sabores.forEach(s=>{
+prod.sabores.forEach(s=>{
 
 const div=document.createElement("div")
 
 div.className="sabor"
 
-const estado=s.stock
-?`<span class="estado disponible">Disponible</span>`
-:`<span class="estado agotado">Agotado</span>`
+let estado=s.stock
+?`<span class="disponible">Disponible</span>`
+:`<span class="agotado">Agotado</span>`
 
-const boton=s.stock
-?`<button onclick="agregar('${producto.nombre}','${s.nombre}',${producto.precio})">Añadir</button>`
+let boton=s.stock
+?`<button onclick="agregar('${prod.nombre}','${s.nombre}',${prod.precio})">Añadir</button>`
 :""
 
 div.innerHTML=`
@@ -378,33 +344,27 @@ carrito.push({prod,sabor,precio})
 
 actualizarCarrito()
 
-animarCarrito()
+animar()
 
 }
 
 function actualizarCarrito(){
 
-const items=document.getElementById("items")
+const lista=document.getElementById("listaCarrito")
 
-items.innerHTML=""
+lista.innerHTML=""
 
 let total=0
-
-if(carrito.length===0){
-
-items.innerText="Carrito vacío"
-
-}
 
 carrito.forEach(c=>{
 
 const div=document.createElement("div")
 
-div.className="item-carrito"
+div.className="item"
 
 div.innerText=`${c.prod} - ${c.sabor} - $${c.precio}`
 
-items.appendChild(div)
+lista.appendChild(div)
 
 total+=c.precio
 
@@ -416,29 +376,25 @@ document.getElementById("total").innerText="Total: $"+total
 
 }
 
-function animarCarrito(){
+function animar(){
 
 const btn=document.getElementById("carritoBtn")
 
 btn.classList.add("animar")
 
-setTimeout(()=>{
-
-btn.classList.remove("animar")
-
-},300)
+setTimeout(()=>btn.classList.remove("animar"),300)
 
 }
 
-document.getElementById("carritoBtn").addEventListener("click",()=>{
+document.getElementById("carritoBtn").onclick=()=>{
 
-document.getElementById("panelCarrito").classList.toggle("abierto")
+document.getElementById("panel").classList.toggle("abierto")
 
-})
+}
 
 function comprar(){
 
-if(carrito.length===0){
+if(carrito.length==0){
 
 alert("Tu carrito está vacío")
 
