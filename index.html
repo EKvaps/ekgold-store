@@ -6,240 +6,221 @@
 <title>EKGOLD</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:#0f0f0f;color:white}
 
-body {
-    background: #0f0f0f;
-    color: white;
-}
+header{background:black;padding:25px;text-align:center;border-bottom:2px solid #C6A75E;position:sticky;top:0}
+header h1{color:#C6A75E;letter-spacing:4px}
 
-/* HEADER */
-header {
-    background: black;
-    padding: 30px 20px;
-    text-align: center;
-    border-bottom: 2px solid #C6A75E;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
+.subtitulo{text-align:center;margin:40px 10px;font-size:26px;color:#ddd}
 
-header h1 {
-    color: #C6A75E;
-    font-size: 36px;
-    letter-spacing: 4px;
-    font-weight: 600;
-}
+.productos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;padding:40px;max-width:1300px;margin:auto}
 
-/* SUBTITLE */
-.subtitulo {
-    text-align: center;
-    margin: 50px 20px 10px;
-    font-size: 26px;
-    font-weight: 300;
-    color: #ddd;
-}
+.card{background:#1a1a1a;border-radius:16px;padding:20px;text-align:center;border:1px solid rgba(198,167,94,0.2);transition:.3s}
+.card:hover{transform:translateY(-6px)}
 
-/* GRID */
-.productos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 35px;
-    padding: 40px;
-    max-width: 1300px;
-    margin: auto;
-}
+.card img{width:100%;height:200px;object-fit:contain;margin-bottom:15px;background:#111;border-radius:10px}
 
-/* CARD */
-.card {
-    background: #1a1a1a;
-    border-radius: 16px;
-    padding: 20px;
-    text-align: center;
-    transition: 0.35s;
-    border: 1px solid rgba(198,167,94,0.15);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    opacity: 0;
-    transform: translateY(30px);
-    animation: aparecer 0.6s forwards;
-}
+.puffs{color:#aaa;font-size:14px;margin-bottom:8px}
+.precio{color:#C6A75E;font-size:20px;font-weight:bold;margin-bottom:12px}
 
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 18px 35px rgba(0,0,0,0.6);
-    border-color: rgba(198,167,94,0.5);
-}
+button{background:#C6A75E;border:none;padding:10px 18px;border-radius:8px;font-weight:bold;cursor:pointer}
 
-.card img {
-    width: 100%;
-    height: 210px;
-    object-fit: contain;
-    border-radius: 12px;
-    background: #111;
-    margin-bottom: 15px;
-}
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center}
+.modal-contenido{background:#1a1a1a;padding:30px;border-radius:14px;width:350px}
 
-.card h3 {
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 8px;
-}
+.sabor{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #333}
+.disponible{color:#3cff8f}
+.agotado{color:#ff4b4b}
 
-.puffs {
-    color: #aaa;
-    font-size: 14px;
-    margin-bottom: 5px;
-}
+/* CART */
+.carrito{position:fixed;top:20px;right:20px;background:#C6A75E;color:black;padding:12px 16px;border-radius:30px;font-weight:bold;cursor:pointer}
 
-.precio {
-    color: #C6A75E;
-    font-size: 20px;
-    font-weight: bold;
-}
+.panel-carrito{position:fixed;right:-400px;top:0;width:320px;height:100%;background:#111;padding:25px;transition:.4s}
+.panel-carrito h2{margin-bottom:20px}
+.item-carrito{margin-bottom:12px;font-size:14px}
 
-/* FOOTER */
-footer {
-    background: black;
-    text-align: center;
-    padding: 20px;
-    margin-top: 60px;
-    border-top: 2px solid #C6A75E;
-    font-size: 14px;
-    color: #aaa;
-}
+.total{margin-top:20px;font-weight:bold;color:#C6A75E}
 
-/* WHATSAPP BUTTON */
-.whatsapp {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background: #C6A75E;
-    color: black;
-    padding: 14px 18px;
-    border-radius: 50px;
-    font-weight: bold;
-    text-decoration: none;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    transition: 0.3s;
-}
-
-.whatsapp:hover {
-    transform: scale(1.08);
-}
-
-/* ANIMATION */
-@keyframes aparecer {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+.comprar{margin-top:20px;width:100%}
 </style>
 </head>
 
 <body>
 
 <header>
-    <h1>EKGOLD</h1>
+<h1>EKGOLD</h1>
 </header>
+
+<div class="carrito" onclick="abrirCarrito()">🛒 Carrito (<span id="cantidad">0</span>)</div>
 
 <h2 class="subtitulo">Nuestros Productos</h2>
 
-<section class="productos" id="contenedor-productos"></section>
+<section class="productos" id="contenedor"></section>
 
-<footer>
-    © 2026 EKGOLD — Experiencia Premium
-</footer>
+<!-- MODAL SABORES -->
+<div class="modal" id="modal">
+<div class="modal-contenido">
+<h3 id="tituloProducto"></h3>
+<div id="listaSabores"></div>
+<br>
+<button onclick="cerrarModal()">Cerrar</button>
+</div>
+</div>
 
-<a class="whatsapp" href="https://wa.me/573106435115" target="_blank">
-    WhatsApp
-</a>
+<!-- PANEL CARRITO -->
+<div class="panel-carrito" id="panelCarrito">
+<h2>Carrito</h2>
+<div id="items"></div>
+<div class="total" id="total"></div>
+<button class="comprar" onclick="comprar()">Comprar</button>
+</div>
 
 <script>
-const productos = [
-    {
-        nombre: "Lost Mary",
-        puffs:  "5.000 puffs",
-        precio: "????",
-        imagen: "https://i0.wp.com/gleevape.com/wp-content/uploads/2024/06/Lost-Mary-MO5000-1-2.webp?fit=710%2C635&ssl=1"
-    },
-    {
-        nombre: "Snoopy",
-        puffs:  "7.000 puffs",
-        precio: "????",
-        imagen: "http://aleko.com.co/cdn/shop/files/image-Photoroom_be096c57-2d63-4f10-a7f4-c2d113bfc7b4.jpg?v=1735910941"
-    },
-    {
-        nombre: "Priv Bar",
-        puffs:  "15.000 puffs",
-        precio: "????",
-        imagen: "https://images.rappi.com/products/1725758231255_1725758229165_1725758228266.jpeg"
-    },
-    {
-        nombre: "Proximamente",
-        puffs:  "??????",
-        precio: "?????",
-        imagen: "https://via.placeholder.com/300x210?text=Elf+Bar"
-    },
-    {
-        nombre: "Proximamente",
-        puffs:  "??????",
-        precio: "?????",
-        imagen: "https://via.placeholder.com/300x210?text=Vaporesso"
-    },
-    {
-        nombre: "Proximamente",
-        puffs:  "??????",
-        precio: "?????",
-        imagen: "https://via.placeholder.com/300x210?text=Ignite"
-    },
-    {
-        nombre: "Proximamente",
-        puffs:  "??????",
-        precio: "?????",
-        imagen: "https://via.placeholder.com/300x210?text=Oxbar"
-    },
-    {
-        nombre: "Proximamente",
-        puffs:  "??????",
-        precio: "?????",
-        imagen: "https://via.placeholder.com/300x210?text=HQD"
-    },
-    {
-        nombre: "Proximamente",
-        puffs:  "??????",
-        precio: "?????",
-        imagen: "https://via.placeholder.com/300x210?text=Maskking"
-    },
-    {
-        nombre: "Proximamente",
-        puffs:  "??????",
-        precio: "?????",
-        imagen: "https://via.placeholder.com/300x210?text=Proximamente"
-    }
+
+const numero="573106435115";
+
+let carrito=[];
+
+const productos=[
+{
+nombre:"Lost Mary",
+puffs:"5000 puffs",
+precio:45000,
+imagen:"https://i0.wp.com/gleevape.com/wp-content/uploads/2024/06/Lost-Mary-MO5000-1-2.webp?fit=710%2C635&ssl=1",
+sabores:[
+{nombre:"Blueberry",stock:true},
+{nombre:"Mango",stock:false},
+{nombre:"Strawberry",stock:true}
+]
+},
+
+{
+nombre:"Snoopy",
+puffs:"7000 puffs",
+precio:50000,
+imagen:"http://aleko.com.co/cdn/shop/files/image-Photoroom_be096c57-2d63-4f10-a7f4-c2d113bfc7b4.jpg?v=1735910941",
+sabores:[
+{nombre:"Watermelon",stock:true},
+{nombre:"Grape",stock:true},
+{nombre:"Peach",stock:false}
+]
+}
 ];
 
-const contenedor = document.getElementById("contenedor-productos");
+const contenedor=document.getElementById("contenedor");
 
-productos.forEach((producto, index) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.style.animationDelay = `${index * 0.1}s`;
+productos.forEach((p,i)=>{
 
-    card.innerHTML = `
-        <img src="${producto.imagen}" alt="${producto.nombre}">
-        <h3>${producto.nombre}</h3>
-        <p class="puffs">${producto.puffs}</p>
-        <p class="precio">$${producto.precio}</p>
-    `;
+const card=document.createElement("div");
+card.className="card";
 
-    contenedor.appendChild(card);
+card.innerHTML=`
+<img src="${p.imagen}">
+<h3>${p.nombre}</h3>
+<p class="puffs">${p.puffs}</p>
+<p class="precio">$${p.precio}</p>
+<button onclick="verSabores(${i})">Comprar</button>
+`;
+
+contenedor.appendChild(card);
+
 });
+
+function verSabores(i){
+
+const producto=productos[i];
+
+document.getElementById("tituloProducto").innerText=producto.nombre;
+
+const lista=document.getElementById("listaSabores");
+lista.innerHTML="";
+
+producto.sabores.forEach(s=>{
+
+const div=document.createElement("div");
+div.className="sabor";
+
+const estado=s.stock
+?`<span class='disponible'>Disponible</span>`
+:`<span class='agotado'>Agotado</span>`;
+
+const boton=s.stock
+?`<button onclick="agregar('${producto.nombre}','${s.nombre}',${producto.precio})">Añadir</button>`
+:"";
+
+div.innerHTML=`
+<span>${s.nombre}</span>
+<span>${estado}</span>
+${boton}
+`;
+
+lista.appendChild(div);
+
+});
+
+document.getElementById("modal").style.display="flex";
+}
+
+function cerrarModal(){
+document.getElementById("modal").style.display="none";
+}
+
+function agregar(prod,sabor,precio){
+
+carrito.push({prod,sabor,precio});
+
+actualizarCarrito();
+
+}
+
+function actualizarCarrito(){
+
+const items=document.getElementById("items");
+items.innerHTML="";
+
+let total=0;
+
+carrito.forEach(c=>{
+
+const div=document.createElement("div");
+div.className="item-carrito";
+
+div.innerText=`${c.prod} - ${c.sabor} - $${c.precio}`;
+
+items.appendChild(div);
+
+ total+=c.precio;
+
+});
+
+document.getElementById("cantidad").innerText=carrito.length;
+
+document.getElementById("total").innerText="Total: $"+total;
+
+}
+
+function abrirCarrito(){
+
+const panel=document.getElementById("panelCarrito");
+
+panel.style.right = panel.style.right=="0px" ? "-400px" : "0px";
+
+}
+
+function comprar(){
+
+let mensaje="Hola quiero comprar:%0A";
+
+carrito.forEach(c=>{
+mensaje+=`${c.prod} - ${c.sabor} - $${c.precio}%0A`;
+});
+
+window.open(`https://wa.me/${numero}?text=${mensaje}`);
+
+}
+
 </script>
 
 </body>
