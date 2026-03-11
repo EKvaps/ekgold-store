@@ -274,8 +274,12 @@ card.innerHTML=`
 <h3>${p.nombre}</h3>
 <p class="puffs">${p.puffs}</p>
 <p class="precio">$${p.precio}</p>
-<button onclick="verSabores(${i})">Comprar</button>
+<button class="btnComprar">Comprar</button>
 `;
+
+card.querySelector(".btnComprar").addEventListener("click",()=>{
+verSabores(i);
+});
 
 contenedor.appendChild(card);
 
