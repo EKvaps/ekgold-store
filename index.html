@@ -34,6 +34,36 @@ letter-spacing:4px;
 font-size:32px;
 }
 
+/* FILTROS */
+
+.filtros{
+display:flex;
+justify-content:center;
+gap:15px;
+margin:25px;
+flex-wrap:wrap;
+}
+
+.filtros button{
+background:#1a1a1a;
+color:#C6A75E;
+border:1px solid #C6A75E;
+padding:10px 20px;
+border-radius:20px;
+cursor:pointer;
+transition:.3s;
+}
+
+.filtros button:hover{
+background:#C6A75E;
+color:black;
+}
+
+.filtros button.activo{
+background:#C6A75E;
+color:black;
+}
+
 /* BOTON CARRITO */
 
 .carrito-btn{
@@ -185,15 +215,22 @@ font-weight:bold;
 <h1>EKGOLD</h1>
 </header>
 
+<div class="filtros">
+
+<button class="activo" onclick="filtrar('todos',this)">Todos</button>
+<button onclick="filtrar('vapers',this)">Vapers</button>
+<button onclick="filtrar('destilados',this)">Destilados</button>
+<button onclick="filtrar('libros',this)">Libros</button>
+
+</div>
+
 <div class="carrito-btn" id="carritoBtn">
 🛒 <span id="cantidad">0</span>
 </div>
 
-<h2 class="subtitulo">Vapes Disponibles</h2>
+<h2 class="subtitulo">Productos Disponibles</h2>
 
 <section class="productos" id="productos"></section>
-
-<!-- MODAL -->
 
 <div class="modal" id="modal">
 
@@ -210,8 +247,6 @@ font-weight:bold;
 </div>
 
 </div>
-
-<!-- PANEL CARRITO -->
 
 <div class="panel-carrito" id="panel">
 
@@ -236,8 +271,9 @@ let carrito=[]
 const productos=[
 
 {
+categoria:"vapers",
 nombre:"Lost Mary",
-puffs:"5000",  
+puffs:"5000",
 precio:19000,
 imagen:"lostmary.png",
 sabores:[
@@ -250,39 +286,42 @@ sabores:[
 },
 
 {
+categoria:"vapers",
 nombre:"Snoopy",
-puffs:"15000",  
+puffs:"15000",
 precio:27000,
 imagen:"snoopy.png",
 sabores:[
 {nombre:"Uva Ice",stock:true},
-{nombre:"Fresa Kiwi",stock:true},  
-{nombre:"Red juice",stock:true},  
+{nombre:"Fresa Kiwi",stock:true},
+{nombre:"Red juice",stock:true},
 {nombre:"Bahama mama",stock:true},
 {nombre:"Triple baya Ice",stock:true},
 {nombre:"Arcoiris tropical",stock:true},
 {nombre:"Piña colada",stock:true},
-{nombre:"Fresa Melocotón menta",stock:true},  
-{nombre:"Fresa Ice",stock:true}, 
+{nombre:"Fresa Melocotón menta",stock:true},
+{nombre:"Fresa Ice",stock:true},
 {nombre:"Cereza coke Ice",stock:true},
-{nombre:"Kiwi fresa",stock:true}  
+{nombre:"Kiwi fresa",stock:true}
 ]
 },
 
 {
+categoria:"vapers",
 nombre:"Hulk hogans",
-puffs:"8000",  
+puffs:"8000",
 precio:20000,
 imagen:"hulk.png",
 sabores:[
 {nombre:"Blue razz Ice",stock:true},
 {nombre:"Triple baya",stock:true},
 {nombre:"Fresa Ice",stock:true},
-{nombre:"Limonada de fruta del dragon",stock:true}  
+{nombre:"Limonada de fruta del dragon",stock:true}
 ]
 },
 
 {
+categoria:"vapers",
 nombre:"Chris brown",
 puffs:"15000",
 precio:30000,
@@ -290,13 +329,14 @@ imagen:"brown.png",
 sabores:[
 {nombre:"Pop de golpe de uva",stock:true},
 {nombre:"Piña colada",stock:true},
-{nombre:"Kiwi fresa",stock:true}  
+{nombre:"Kiwi fresa",stock:true}
 ]
 },
 
 {
+categoria:"destilados",
 nombre:"Just delta-destilado",
-puffs:"1500",  
+puffs:"1500",
 precio:30000,
 imagen:"delta.png",
 sabores:[
@@ -305,12 +345,28 @@ sabores:[
 {nombre:"Fresa cough",stock:true},
 {nombre:"Alien kush",stock:true}
 ]
-}  
+},
+
+{
+categoria:"libros",
+nombre:"Escritos de un corazón errante",
+puffs:"",
+precio:65000,
+imagen:"libro.png",
+sabores:[
+{nombre:"Desea añadir este producto",stock:true}
 ]
+}
+
+]
+
+function mostrarProductos(lista){
 
 const contenedor=document.getElementById("productos")
 
-productos.forEach((p,i)=>{
+contenedor.innerHTML=""
+
+lista.forEach((p)=>{
 
 const card=document.createElement("div")
 
@@ -322,7 +378,7 @@ card.innerHTML=`
 
 <h3>${p.nombre}</h3>
 
-<p>${p.puffs} Puffs</p>
+<p>${p.puffs ? p.puffs+" Puffs" : "Libro"}</p>
 
 <div class="precio">$${p.precio}</div>
 
@@ -330,15 +386,46 @@ card.innerHTML=`
 
 `
 
-card.querySelector("button").onclick=()=>abrirSabores(i)
+card.querySelector("button").onclick=()=>abrirSabores(productos.indexOf(p))
 
 contenedor.appendChild(card)
 
 })
 
+}
+
+mostrarProductos(productos)
+
+function filtrar(categoria,btn){
+
+document.querySelectorAll(".filtros button").forEach(b=>b.classList.remove("activo"))
+
+btn.classList.add("activo")
+
+if(categoria=="todos"){
+
+mostrarProductos(productos)
+
+}else{
+
+const filtrados=productos.filter(p=>p.categoria==categoria)
+
+mostrarProductos(filtrados)
+
+}
+
+}
+
 function abrirSabores(i){
 
 const prod=productos[i]
+
+if(prod.sabores.length==0){
+
+agregar(prod.nombre,"Libro",prod.precio)
+return
+
+}
 
 document.getElementById("titulo").innerText=prod.nombre
 
